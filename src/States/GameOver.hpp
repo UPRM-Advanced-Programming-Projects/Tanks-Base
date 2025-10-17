@@ -1,0 +1,47 @@
+#pragma once
+#include "State.hpp"
+#include "Counter.hpp"
+#include "Map.hpp"
+
+class GameOver : public State {
+    private:
+        Counter* counter;
+        int levelReached = 0;
+        std::vector<Block*> layout;
+        std::vector<Enemy*> enemies;
+        bool finished = false;
+        bool start = true;
+        int transparency = 0;
+        double titlePos = 0;
+    
+    public:
+        inline static Texture2D icons;
+
+        GameOver() {
+            this->name = "GAMEOVER";
+        }
+        
+        void setCounter(Counter* counter) { this->counter = counter; }
+        void setLevelReached(int level) { this->levelReached = level; }
+        void setLevel(Map level) {
+            this->layout = level.getLayout();
+            this->enemies = level.getEnemies();
+        }
+
+        void Update() override;
+        void Draw() override;
+		void KeyPressed(int key) override;
+		void KeyReleased() override;
+		void MousePressed(int x, int y, int button) override;
+        void Reset() override;
+
+        static void LoadImages() {
+            icons = LoadTextureFromImage(LoadImage("images/TankIcons.png"));
+        }
+
+        static void UnloadImages() {
+            UnloadTexture(icons);
+        }
+
+        ~GameOver() {}
+};
