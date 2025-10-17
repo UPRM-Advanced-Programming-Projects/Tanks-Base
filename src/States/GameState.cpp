@@ -70,16 +70,6 @@ void Game::KeyPressed(int key) {
         player->moveForward = false;
         player->moveBackward = false;
     }
-
-    if (key == KEY_LEFT) { 
-        currentMap = std::max(currentMap - 1, 1); 
-        Reset();
-    }
-
-    if (key == KEY_RIGHT) { 
-        currentMap = std::min(currentMap + 1, 30);
-        Reset();
-    }
 }
 
 void Game::KeyReleased() {
