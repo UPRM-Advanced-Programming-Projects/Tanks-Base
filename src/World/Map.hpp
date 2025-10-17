@@ -9,7 +9,6 @@
 #include "WhiteTank.hpp"
 #include "LimeTank.hpp"
 #include "BlackTank.hpp"
-#include "Counter.hpp"
 
 #define Width GetScreenWidth()
 #define Height GetScreenHeight()
@@ -61,7 +60,7 @@ class Map {
         }
 
         void draw();
-        void update(Player* &player, std::vector<Projectile*> &projectiles, Counter* &counter);
+        void update(Player* &player, std::vector<Projectile*> &projectiles);
         void enemyCollisions();
         static Map getMap(int level);
 };

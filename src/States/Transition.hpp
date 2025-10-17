@@ -1,11 +1,9 @@
 #pragma once
 #include "State.hpp"
-#include "Counter.hpp"
 #include "Map.hpp"
 
 class Transition : public State {
     private:
-        Counter* counter;
         int levelReached = 0;
         std::vector<Block*> layout;
         Player* player;
@@ -21,7 +19,6 @@ class Transition : public State {
             this->name = "TRANSITION";
         }
         
-        void setCounter(Counter* counter) { this->counter = counter; }
         void setLevel(Map level, Player* p) {
             this->layout = level.getLayout();
             this->player = p;

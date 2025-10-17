@@ -18,7 +18,6 @@ class Game : public State {
             player->setDirection(world.getAngle());
         }
         
-        void setCounter(Counter* counter) { this->counter = counter; }
         void Update() override;
         void Draw() override;
         void KeyPressed(int key) override;
@@ -35,7 +34,6 @@ class Game : public State {
         std::vector<Projectile*> projectiles;
         Player* player = new Player();
         Map world;
-        Counter* counter;
 
         ~Game() {}
 };

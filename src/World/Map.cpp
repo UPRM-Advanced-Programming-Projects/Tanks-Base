@@ -9,16 +9,10 @@ void Map::draw() {
     for (Block* b : this->layout) b->draw();
 }
         
-void Map::update(Player* &player, std::vector<Projectile*> &projectiles, Counter* &counter) {
+void Map::update(Player* &player, std::vector<Projectile*> &projectiles) {
     Enemy::allyCollision(this->enemies);
 
-    for (Enemy* e : enemies) {
-        if (e->getHealth() <= 0) {
-                counter->update(e->colorID);
-        }
-    } 
-
-    this->enemies.erase(remove_if(this->enemies.begin(), this->enemies.end(), [&counter](Enemy* e) {
+    this->enemies.erase(remove_if(this->enemies.begin(), this->enemies.end(), [](Enemy* e) {
         return e->getHealth() <= 0;
     }), this->enemies.end());
     
@@ -68,9 +62,6 @@ Map Map::getMap(int level) {
             map.addBlock(new Block(Width / 2, Height / 2, Width / 2, 50));
 
             map.addEnemy(new BeigeTank(Width / 2, Height * 2/3, Direction::UP, Map::ID++));
-
-            // map.addBlock(new Block(200, 200, 100, 100, true));
-            // map.addEnemy(new BlackTank(100, 100, 90));
             break;
 
         case 2:

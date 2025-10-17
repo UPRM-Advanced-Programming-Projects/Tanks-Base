@@ -20,7 +20,6 @@ class Program {
         void Reset();
         
         std::string currentState = "INTRO";
-        Counter* counter = new Counter();
         Intro introState = Intro();
         Game gameState = Game();
         GameOver gameOverState = GameOver();

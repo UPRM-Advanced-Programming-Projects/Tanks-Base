@@ -25,8 +25,7 @@ void Transition::Draw() {
                        (Rectangle){(float)(Width * 0.475f - 22.5), Height * 0.4f - 5 + (20 * i), 45, 20}, (Vector2){0, 0}, 0,
                        (Color){255, 255, 255, 255});
 
-        std::string count = std::to_string(counter->ids[i]);
-        DrawText(count.c_str(), Width * 0.525f, Height * 0.4f - 5 + (21 * i), 16, WHITE);
+        DrawText("0", Width * 0.525f, Height * 0.4f - 5 + (21 * i), 16, WHITE);
     }
 
     DrawRectangle(0, 0, Width, Height, (Color){0, 0, 0, (unsigned char) this->transparency});

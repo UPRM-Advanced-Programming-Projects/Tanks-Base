@@ -1,11 +1,9 @@
 #pragma once
 #include "State.hpp"
-#include "Counter.hpp"
 #include "Map.hpp"
 
 class GameOver : public State {
     private:
-        Counter* counter;
         int levelReached = 0;
         std::vector<Block*> layout;
         std::vector<Enemy*> enemies;
@@ -21,7 +19,6 @@ class GameOver : public State {
             this->name = "GAMEOVER";
         }
         
-        void setCounter(Counter* counter) { this->counter = counter; }
         void setLevelReached(int level) { this->levelReached = level; }
         void setLevel(Map level) {
             this->layout = level.getLayout();

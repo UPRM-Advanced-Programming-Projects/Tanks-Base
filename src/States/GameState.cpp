@@ -21,7 +21,7 @@ void Game::Update() {
         doFrames--;
     }
 
-    world.update(player, projectiles, counter);
+    world.update(player, projectiles);
 
     if (player->getHealth() <= 0 && player->lives <= 0) {
         this->done = true;

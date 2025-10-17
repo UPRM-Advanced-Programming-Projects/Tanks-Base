@@ -1,7 +1,6 @@
 #include "Program.hpp"
 
 Program::Program() {
-    gameState.setCounter(counter);
     ground = LoadTextureFromImage(LoadImage("images/Ground.jpg"));
 }
 
@@ -18,21 +17,18 @@ void Program::Update() {
             currentState = "GAMEOVER";
             gameOverState.setLevel(gameState.world);
             gameOverState.setLevelReached(gameState.currentMap);
-            gameOverState.setCounter(counter);
             StopSound(SoundManager::theme);
             StopSound(SoundManager::startUp);
         }
         if (gameState.win) {
             currentState = "WIN";
             winState.setLevel(gameState.world, gameState.player);
-            winState.setCounter(counter);
             StopSound(SoundManager::theme);
             StopSound(SoundManager::startUp);
         }
         if (gameState.nextLevel) {
             currentState = "TRANSITION";
             transitionState.setLevel(gameState.world, gameState.player);
-            transitionState.setCounter(counter);
             StopSound(SoundManager::theme);
             StopSound(SoundManager::startUp);
         }
@@ -129,8 +125,6 @@ void Program::Reset() {
     gameOverState = GameOver();
     winState = Win();
     transitionState = Transition();
-    counter = new Counter();
-    gameState.setCounter(counter);
 }
 
 void Program::Unload() {
