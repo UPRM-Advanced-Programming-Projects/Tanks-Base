@@ -6,7 +6,9 @@
 class Intro : public State {
     protected:
         std::vector<Block*> layout;
-        std::vector<Enemy*> enemies;
+        std::vector<BeigeTank*> enemies1;
+        std::vector<GreenTank*> enemies2;
+        std::vector<YellowTank*> enemies3;
         std::vector<Projectile*> projectiles;
         std::pair<double, double> playerStart;
         PlayerAI* playerAI;
@@ -25,10 +27,10 @@ class Intro : public State {
             this->layout.push_back(new Block(Width * 0.5, Height / 3, 50, Height * 2/3));
             this->layout.push_back(new Block(Width * 0.75, Height * 0.6, Width * 0.25, Width * 0.25));
 
-            this->enemies.push_back(new GreenTank(Width * 0.55, Height * 0.125, Direction::LEFT, 2));
-            this->enemies.push_back(new GreenTank(Width * 0.5, Height * 0.875, Direction::LEFT, 3));
-            this->enemies.push_back(new BeigeTank(Width * 0.375, Height * 0.25, Direction::LEFT, 4));
-            this->enemies.push_back(new YellowTank(Width * 0.9, Height * 0.6, Direction::UP, 5));
+            this->enemies1.push_back(new BeigeTank(Width * 0.375, Height * 0.25, Direction::LEFT, 2));
+            this->enemies2.push_back(new GreenTank(Width * 0.55, Height * 0.125, Direction::LEFT, 3));
+            this->enemies2.push_back(new GreenTank(Width * 0.5, Height * 0.875, Direction::LEFT, 4));
+            this->enemies3.push_back(new YellowTank(Width * 0.9, Height * 0.6, Direction::UP, 5));
         }
 
         virtual void Draw() override;
@@ -37,7 +39,7 @@ class Intro : public State {
         virtual void KeyReleased() override;
 		virtual void MousePressed(int x, int y, int button) override;
         virtual void Reset() override;
-        void enemyCollisions();
+        int getEnemyCount() { return this->enemies1.size() + this->enemies2.size() + this->enemies3.size(); }
         void manageAnimations();
 
         ~Intro() {}

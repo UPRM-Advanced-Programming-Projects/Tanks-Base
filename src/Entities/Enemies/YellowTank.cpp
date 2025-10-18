@@ -1,26 +1,6 @@
-#include "EnemyTank.hpp"
-#include <random>
+#include "YellowTank.hpp"
 
-std::random_device rd;
-std::mt19937 gen(rd());
-std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
-
-#define X this->position.first
-#define Y this->position.second
-
-SightLine makeSightline(std::vector<double> distances, std::vector<double> sizes) {
-    std::vector<CustomHitbox> hitboxes;
-    for (double size : sizes) {
-        hitboxes.push_back(CustomHitbox(0, 0, size, size));
-    }
-
-    return (SightLine){
-        hitboxes,
-        distances
-    };
-}
-
-void Enemy::draw() {
+void YellowTank::draw() {
     rlPushMatrix();
         rlTranslatef(X, Y, 0.0f);
         rlRotatef(this->angle, 0.0f, 0.0f, 1.0f);
@@ -38,7 +18,7 @@ void Enemy::draw() {
     rlPopMatrix();
 }
 
-void Enemy::update() {
+void YellowTank::update() {
     this->fireRate = std::max(this->fireRate - 1, 0);
     this->hitBox.setPosition(X, Y);
 
@@ -79,7 +59,7 @@ void Enemy::update() {
 
 }
 
-void Enemy::shoot(std::vector<Projectile*> &projectiles, std::pair<double, double> target) {
+void YellowTank::shoot(std::vector<Projectile*> &projectiles, std::pair<double, double> target) {
     if (fireRate <= 0 && this->hasTarget) {
         PlaySound(SoundManager::shoot);
         Missile* m = new Missile(X, Y, 2, this->projectileSpeed, target, this->ID);
@@ -88,7 +68,7 @@ void Enemy::shoot(std::vector<Projectile*> &projectiles, std::pair<double, doubl
     }
 }
 
-void Enemy::targetSystem(CustomHitbox target, std::vector<Block*> blocks) {
+void YellowTank::targetSystem(CustomHitbox target, std::vector<Block*> blocks) {
     bool didCollide = false;
     for (int i = 0; i < sightline.hitboxes.size(); i++) {
         if (CustomHitbox::collision(sightline.hitboxes[i], target)) {
@@ -124,7 +104,7 @@ void Enemy::targetSystem(CustomHitbox target, std::vector<Block*> blocks) {
     }
 }
 
-void Enemy::move(std::vector<Block*> &blocks) {
+void YellowTank::move(std::vector<Block*> &blocks) {
     if (this->moving && !IsSoundPlaying(SoundManager::moving)) PlaySound(SoundManager::moving); 
     this->collisionBox.setPosition(X, Y);
     this->velocity.first = cos(angle * PI / 180);
@@ -157,18 +137,7 @@ void Enemy::move(std::vector<Block*> &blocks) {
     
 }
 
-void Enemy::allyCollision(std::vector<Enemy*> allies) {
-    for (int i = 0; i < allies.size(); i++) {
-        for (int j = i + 1; j < allies.size(); j++) {
-            if (CustomHitbox::collision(allies[i]->getHitbox(), allies[j]->getHitbox())) {
-                allies[i]->makeTurnTimer = 0;
-                allies[j]->makeTurnTimer = 0;
-            }
-        }
-    }
-}
-
-void Enemy::projectileCollision(std::vector<Projectile*> &projectiles) {
+void YellowTank::projectileCollision(std::vector<Projectile*> &projectiles) {
     for (Projectile* p : projectiles) {
         if (CustomHitbox::collision(this->hitBox, p->getHitbox()) && (p->ID != -1 && p->ID != this->ID)) {
             this->health--;
@@ -181,7 +150,7 @@ void Enemy::projectileCollision(std::vector<Projectile*> &projectiles) {
     }
 }
 
-void Enemy::drawHitboxes() {
+void YellowTank::drawHitboxes() {
     this->hitBox.draw();
     this->collisionBox.draw();
     for (CustomHitbox c : sightline.hitboxes) { c.draw(); }

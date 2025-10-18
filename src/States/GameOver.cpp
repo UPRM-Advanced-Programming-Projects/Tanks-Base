@@ -10,7 +10,11 @@ void GameOver::Update() {
 }
 
 void GameOver::Draw() {
-    for (Enemy* e : this->enemies) e->draw();
+    for (BeigeTank* e : this->enemies1) { e->draw(); }
+    for (GreenTank* e : this->enemies2) { e->draw(); }
+    for (RedTank* e : this->enemies3) { e->draw(); }
+    for (YellowTank* e : this->enemies4) { e->draw(); }
+    
     for (Block* b : this->layout) b->draw();
 
     DrawRectangle(0, 0, Width, Height, (Color){0, 0, 0, 100});

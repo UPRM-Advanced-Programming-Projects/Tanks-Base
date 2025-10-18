@@ -1,10 +1,71 @@
 #pragma once
-#include "EnemyTank.hpp"
-#include "Mine.hpp"
+#include "Tank.hpp"
+#include "Player.hpp"
+#include "Sightline.hpp"
 
-class RedTank : public Enemy {
+class RedTank {
+    private:
+        double length;
+        double width;
+
+        int health;
+        int fireRate;
+        float speed;
+        bool moving = false;
+        
+        double aimAngle;
+        double angle;
+        std::pair<double, double> velocity;
+        std::pair<double, double> position;
+
+        CustomHitbox hitBox;
+        CustomHitbox collisionBox;
+        SightLine sightline;
+
+        double targetAngle;
+        float projectileSpeed;
+        int maxFireRate;
+
+        double turnTimer;
+        double total;
+        int turnDir;
+        int makeTurnTimer = GetRandomValue(180, 360);
+
+        bool hasTarget;
+
+        Rectangle body;
+        Rectangle head;
+        
+        int ID;
+
     public:
-        RedTank(double x, double y, double angle, int ID) : Enemy(x, y, angle, 420, 0) {
+        char colorID = '0';
+
+        RedTank(double x, double y, double angle, int ID) {
+            this->length = 32;
+            this->width = 32;
+
+            this->health = 1;
+            this->fireRate = 420;
+            this->maxFireRate = 420;
+            this->projectileSpeed = 0;
+            this->speed = 2;
+
+            this->aimAngle = angle;
+            this->angle = angle;
+            this->targetAngle = angle;
+
+            this->velocity.first = cos(angle);
+            this->velocity.second = sin(angle);
+            this->position.first = x;
+            this->position.second = y;
+
+            this->hitBox = CustomHitbox(0, 0, width, length);
+            this->collisionBox = CustomHitbox(0, 0, width + 20, length + 20);
+
+            this->hasTarget = false;
+            this->turnTimer = 0;
+
             sightline = makeSightline({0}, {0});
             this->colorID = 'r';
             this->body = {198, 0, 64, 64};
@@ -12,18 +73,22 @@ class RedTank : public Enemy {
             this->ID = ID;
         }
 
-        void placeMine(std::vector<Projectile*> &projectiles) {
-            if (fireRate <= 0) {
-                PlaySound(SoundManager::shoot);
-                Mine* m = new Mine(this->position.first, this->position.second);
-                projectiles.push_back(m);
-                this->fireRate = maxFireRate;
-            }
-        }
+        void draw();
+        void update();
 
-        void updateAll(Tank* player, std::vector<Projectile*> &projectiles, std::vector<Block*> blocks) override {
-            this->update();
-            this->move(blocks);
-            this->placeMine(projectiles);
-        }
+        int getHealth() { return this->health; }
+        float getSpeed() { return this->speed; }
+        bool isMoving() { return this->moving; }
+        CustomHitbox getHitbox() { return this->hitBox; }
+        std::pair<double, double> getPosition() { return this->position; }
+        std::pair<double, double> getVelocity() { return this->velocity; }
+        bool getHasTarget() { return this->hasTarget; }
+        void setTurnTimer(int t) { this->makeTurnTimer = t; }
+        
+        void move(std::vector<Block*> &blocks);
+        void shoot(std::vector<Projectile*> &projectiles);
+        void drawHitboxes();
+        void projectileCollision(std::vector<Projectile*> &projectiles);
+
+        ~RedTank() {}
 };

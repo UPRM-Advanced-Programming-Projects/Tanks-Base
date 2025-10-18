@@ -34,12 +34,12 @@ void Game::Update() {
         startUp = true;
     }
 
-    if (world.getEnemies().size() <= 0 && Tank::animations.size() <= 0 && this->currentMap < 30) {
+    if (world.getEnemyCount() <= 0 && Tank::animations.size() <= 0 && this->currentMap < 30) {
         this->nextLevel = true;
         this->startUp = true;
         this->delay = 90;
     }
-    if (world.getEnemies().size() <= 0 && Tank::animations.size() <= 0 && this->currentMap == 30) this->win = true;
+    if (world.getEnemyCount() <= 0 && Tank::animations.size() <= 0 && this->currentMap == 30) this->win = true;
 }
 
 void Game::Draw() {

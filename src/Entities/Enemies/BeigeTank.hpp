@@ -1,12 +1,73 @@
 #pragma once
-#include "EnemyTank.hpp"
+#include "Tank.hpp"
+#include "Player.hpp"
+#include "Sightline.hpp"
 
-#define X this->position.first
-#define Y this->position.second
+class BeigeTank {
+    private:
+        double length;
+        double width;
 
-class BeigeTank : public Enemy {
+        int health;
+        int fireRate;
+        float speed;
+        bool moving = false;
+        
+        double aimAngle;
+        double angle;
+        std::pair<double, double> velocity;
+        std::pair<double, double> position;
+
+        CustomHitbox hitBox;
+        CustomHitbox collisionBox;
+        SightLine sightline;
+
+        double targetAngle;
+        float projectileSpeed;
+        int maxFireRate;
+
+        double turnTimer;
+        double total;
+        int turnDir;
+        int makeTurnTimer = GetRandomValue(180, 360);
+
+        bool hasTarget;
+
+        Rectangle body;
+        Rectangle head;
+        
+        int ID;
+
     public:
-        BeigeTank(double x, double y, double angle, int ID) : Enemy(x, y, angle, 120, 4.0) {
+        char colorID = '0';
+
+        BeigeTank(double x, double y, double angle, int ID) {
+            this->length = 32;
+            this->width = 32;
+
+            this->health = 1;
+            this->fireRate = 120;
+            this->maxFireRate = 120;
+            this->projectileSpeed = 4.0;
+            this->speed = 2;
+
+            this->aimAngle = angle;
+            this->angle = angle;
+            this->targetAngle = angle;
+
+            this->velocity.first = cos(angle);
+            this->velocity.second = sin(angle);
+            this->position.first = x;
+            this->position.second = y;
+
+            this->hitBox = CustomHitbox(0, 0, width, length);
+            this->collisionBox = CustomHitbox(0, 0, width + 20, length + 20);
+
+            sightline = makeSightline({90, 282}, {168, 264});
+
+            this->hasTarget = false;
+            this->turnTimer = 0;
+
             this->collisionBox.setPosition(X, Y);
             this->colorID = 'b';
             this->body = {66, 0, 64, 64};
@@ -14,31 +75,23 @@ class BeigeTank : public Enemy {
             this->ID = ID;
         }
 
-        void staticUpdate() {
-            this->fireRate = std::max(this->fireRate - 1, 0);
-            this->collisionBox.setPosition(X, Y);
-            this->hitBox.setPosition(X, Y);
 
-            for (int i = 0; i < sightline.hitboxes.size(); i++) {
-                double dist = sightline.distances[i];
-                sightline.hitboxes[i].setPosition(X + dist * cos(this->aimAngle * PI/180), 
-                                                  Y + dist * sin(this->aimAngle * PI/180));
-            }
+        void draw();
+        void update();
 
-            double angleDiff = Math::getAngleDif(this->aimAngle, this->targetAngle);
-            if (!this->hasTarget) { this->targetAngle += 0.5; }
+        int getHealth() { return this->health; }
+        float getSpeed() { return this->speed; }
+        bool isMoving() { return this->moving; }
+        CustomHitbox getHitbox() { return this->hitBox; }
+        std::pair<double, double> getPosition() { return this->position; }
+        std::pair<double, double> getVelocity() { return this->velocity; }
+        bool getHasTarget() { return this->hasTarget; }
 
-            this->aimAngle -= this->hasTarget ? angleDiff / 5 : angleDiff / 25;
-            if (this->aimAngle > 360.0) this->aimAngle -= 360.0;
-            if (this->aimAngle <   0.0) this->aimAngle += 360.0;
-
-        }
-
-        void updateAll(Tank* player, std::vector<Projectile*> &projectiles, std::vector<Block*> blocks) override {
-            this->staticUpdate();
-            this->targetSystem(player->getHitbox(), blocks);
-            this->shoot(projectiles, player->getPosition());
-        }
+        void targetSystem(CustomHitbox target, std::vector<Block*> blocks);
+        void shoot(std::vector<Projectile*> &projectiles, std::pair<double, double> target);
+        void drawHitboxes();
+        void projectileCollision(std::vector<Projectile*> &projectiles);
     
+        ~BeigeTank() {}
 };
 

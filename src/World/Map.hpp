@@ -1,14 +1,9 @@
 #pragma once
 #include "Block.hpp"
 #include "GreenTank.hpp"
-#include "PinkTank.hpp"
 #include "BeigeTank.hpp"
 #include "YellowTank.hpp"
 #include "RedTank.hpp"
-#include "PurpleTank.hpp"
-#include "WhiteTank.hpp"
-#include "LimeTank.hpp"
-#include "BlackTank.hpp"
 
 #define Width GetScreenWidth()
 #define Height GetScreenHeight()
@@ -16,11 +11,15 @@
 class Map {
     protected:
         std::vector<Block*> layout;
-        std::vector<Enemy*> enemies;
         std::pair<double, double> playerStart;
         double startAngle;
         
     public:
+        std::vector<BeigeTank*> enemies1;
+        std::vector<GreenTank*> enemies2;
+        std::vector<RedTank*> enemies3;
+        std::vector<YellowTank*> enemies4;
+
         bool showHitboxes = false;
         inline static int ID = 1;
 
@@ -48,14 +47,22 @@ class Map {
         double getX() { return this->playerStart.first; }
         double getY() { return this->playerStart.second; }
         double getAngle() { return this->startAngle; }
+        int getEnemyCount() { return this->enemies1.size() + this->enemies2.size() + this->enemies3.size() + this->enemies4.size(); }
         
         std::vector<Block*> getLayout() { return this->layout; }
-        std::vector<Enemy*> getEnemies() { return this->enemies; }
+
         void addBlock(Block* b) { this->layout.push_back(b); }
-        void addEnemy(Enemy* e) { this->enemies.push_back(e); }
+        void addBeige(BeigeTank* e) { this->enemies1.push_back(e); }
+        void addGreen(GreenTank* e) { this->enemies2.push_back(e); }
+        void addRed(RedTank* e) { this->enemies3.push_back(e); }
+        void addYellow(YellowTank* e) { this->enemies4.push_back(e); }
+
         std::vector<CustomHitbox> getEnemyHitboxes() {
             std::vector<CustomHitbox> hitboxes;
-            for (Enemy* e : this->enemies) hitboxes.push_back(e->getHitbox());
+            for (BeigeTank* e : this->enemies1) hitboxes.push_back(e->getHitbox());
+            for (GreenTank* e : this->enemies2) hitboxes.push_back(e->getHitbox());
+            for (RedTank* e : this->enemies3) hitboxes.push_back(e->getHitbox());
+            for (YellowTank* e : this->enemies4) hitboxes.push_back(e->getHitbox());
             return hitboxes;
         }
 
