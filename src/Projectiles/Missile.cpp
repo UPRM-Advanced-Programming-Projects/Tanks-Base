@@ -16,7 +16,7 @@ void Missile::update(std::vector<Block*> blocks, CustomHitbox target) {
     this->hitbox.setPosition(position.first, position.second);
     
     for (Block* b : blocks) {
-        if (!b->IsWindow() && CustomHitbox::collision(this->getHitbox(), b->getHitbox())) {
+        if (CustomHitbox::collision(this->getHitbox(), b->getHitbox())) {
             std::pair<double, double> margin = CustomHitbox::collisionMargins(this->getHitbox(), b->getHitbox());
             if (abs(margin.first) > abs(margin.second)) {
                 PlaySound(SoundManager::bounce);

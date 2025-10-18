@@ -96,7 +96,7 @@ void GreenTank::targetSystem(CustomHitbox target, std::vector<Block*> blocks) {
         }
 
         for (Block* b : blocks) {
-            if (CustomHitbox::collision(b->getHitbox(), hb) && !(b->IsWindow())) {
+            if (CustomHitbox::collision(b->getHitbox(), hb)) {
                 hasTarget = false;
                 return;
             }
