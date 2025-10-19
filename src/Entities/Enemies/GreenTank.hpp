@@ -38,6 +38,8 @@ class GreenTank {
         
         int ID;
 
+        void blockCollision(std::vector<Block*> blocks);
+
     public:
         char colorID = '0';
 

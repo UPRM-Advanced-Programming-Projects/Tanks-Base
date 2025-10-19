@@ -145,6 +145,7 @@ Map Map::getMap(int level) {
             map.addBlock(new Block(Width / 2, Height * 0.8, Width * 0.4, 50));
 
             map.addBeige(new BeigeTank(Width / 2, Height / 2, Direction::LEFT, Map::ID++));
+            map.addGreen(new GreenTank(Width / 2, Height / 3, Direction::DOWN, Map::ID++));
             map.addYellow(new YellowTank(Width * 0.9, Height / 6, Direction::LEFT, Map::ID++));
             map.addYellow(new YellowTank(Width * 0.9, Height * 0.9, Direction::LEFT, Map::ID++));
             map.addGreen(new GreenTank(Width * 11/12, Height / 2, Direction::UP, Map::ID++));

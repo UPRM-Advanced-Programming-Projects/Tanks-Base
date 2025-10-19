@@ -75,26 +75,8 @@ void RedTank::move(std::vector<Block*> &blocks) {
     this->velocity.second = sin(angle * PI / 180);
     
     if (turnTimer <= 0 && !this->hasTarget) {
-        for (Block* b : blocks) {
-            if (CustomHitbox::collision(this->collisionBox, b->getHitbox())) {
-                std::pair<double, double> collision = CustomHitbox::collisionMargins(this->collisionBox, b->getHitbox());
-                if (abs(collision.second) < abs(collision.first)) {
-                    this->position.second += collision.second - Math::sign(this->velocity.second);
-                } else {
-                    this->position.first += collision.first - Math::sign(this->velocity.first);
-                }
-                
-                this->collisionBox.setPosition(X, Y);
-                turnDir = Math::sign(dist(gen));
-                turnTimer = (turnDir > 0) ? (90 - fmod(this->angle, 90)) : fmod(this->angle, 90);
-                total = turnTimer;
-                return;
-            }
-        }
+        this->blockCollision(blocks);
 
-        this->moving = true;
-        this->position.first += this->velocity.first * speed;
-        this->position.second += this->velocity.second * speed;
     } else {
         this->moving = false;
     }
@@ -112,6 +94,30 @@ void RedTank::projectileCollision(std::vector<Projectile*> &projectiles) {
             PlaySound(SoundManager::enemyDeath);
         }
     }
+}
+
+void RedTank::blockCollision(std::vector<Block*> blocks) {
+    for (Block* b : blocks) {
+        if (CustomHitbox::collision(this->collisionBox, b->getHitbox())) {
+            std::pair<double, double> collision = CustomHitbox::collisionMargins(this->collisionBox, b->getHitbox());
+            if (abs(collision.second) < abs(collision.first)) {
+                this->position.second += collision.second - Math::sign(this->velocity.second);
+            } else {
+                this->position.first += collision.first - Math::sign(this->velocity.first);
+            }
+            
+            this->collisionBox.setPosition(X, Y);
+            turnDir = Math::sign(dist(gen));
+            turnTimer = (turnDir > 0) ? (90 - fmod(this->angle, 90)) : fmod(this->angle, 90);
+            total = turnTimer;
+            return;
+        }
+
+    }
+    
+    this->moving = true;
+    this->position.first += this->velocity.first * speed;
+    this->position.second += this->velocity.second * speed;
 }
 
 void RedTank::drawHitboxes() {
