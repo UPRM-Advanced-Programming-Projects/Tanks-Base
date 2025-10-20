@@ -3,8 +3,8 @@
 #include "Missile.hpp"
 #include "Block.hpp"
 #include "MathUtils.hpp"
-#include "Animation.hpp"
 #include "SoundManager.hpp"
+#include "ImageManager.hpp"
 
 class Tank {
     protected:
@@ -23,11 +23,6 @@ class Tank {
         CustomHitbox hitBox;
         
     public:
-        inline static Texture2D tankBodies;
-        inline static Texture2D tankHeads;
-        inline static Texture2D tankExplosion;
-        inline static std::vector<Animation> animations;
-
         Tank() {}
 
         virtual void update() = 0;
@@ -47,18 +42,6 @@ class Tank {
         void setPosition(double x, double y) {
             this->position.first = x;
             this->position.second = y;
-        }
-
-        static void LoadImages() {
-            tankBodies = LoadTextureFromImage(LoadImage("images/TankBodies.png"));
-            tankHeads = LoadTextureFromImage(LoadImage("images/TankHeads.png"));
-            tankExplosion = LoadTextureFromImage(LoadImage("images/TankExplosion.png"));
-        }
-
-        static void UnloadImages() {
-            UnloadTexture(tankBodies);
-            UnloadTexture(tankHeads);
-            UnloadTexture(tankExplosion);
         }
 
         ~Tank() {}

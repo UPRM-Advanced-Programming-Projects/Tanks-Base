@@ -6,18 +6,13 @@ class GameOver : public State {
     private:
         int levelReached = 0;
         std::vector<Block*> layout;
-        std::vector<BeigeTank*> enemies1;
-        std::vector<GreenTank*> enemies2;
-        std::vector<RedTank*> enemies3;
-        std::vector<YellowTank*> enemies4;
+        std::vector<Tank*> enemies;
         bool finished = false;
         bool start = true;
         int transparency = 0;
         double titlePos = 0;
     
     public:
-        inline static Texture2D icons;
-
         GameOver() {
             this->name = "GAMEOVER";
         }
@@ -25,10 +20,7 @@ class GameOver : public State {
         void setLevelReached(int level) { this->levelReached = level; }
         void setLevel(Map level) {
             this->layout = level.getLayout();
-            this->enemies1 = level.enemies1;
-            this->enemies2 = level.enemies2;
-            this->enemies3 = level.enemies3;
-            this->enemies4 = level.enemies4;
+            this->enemies = level.enemies;
         }
 
         void Update() override;
@@ -37,14 +29,6 @@ class GameOver : public State {
 		void KeyReleased() override;
 		void MousePressed(int x, int y, int button) override;
         void Reset() override;
-
-        static void LoadImages() {
-            icons = LoadTextureFromImage(LoadImage("images/TankIcons.png"));
-        }
-
-        static void UnloadImages() {
-            UnloadTexture(icons);
-        }
 
         ~GameOver() {}
 };

@@ -23,11 +23,7 @@ int main () {
 	
     // Create the window and OpenGL context & tell the window to use vsync and work on high DPI displays
 	raylib::Window window(1280, 800, "Tanks!", FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
-	Tank::LoadImages();
-	Projectile::LoadImages();
-	GameOver::LoadImages();
-	Win::LoadImages();
-	Transition::LoadImages();
+	ImageManager::LoadImages();
 	SoundManager::LoadSounds();
 
 	// Create the window and OpenGL context
@@ -64,11 +60,7 @@ int main () {
 	CloseAudioDevice();
 	
 	// destroy the window and cleanup the OpenGL context
-	Tank::UnloadImages();
-	Projectile::UnloadImages();
-	GameOver::UnloadImages();
-	Win::UnloadImages();
-	Transition::UnloadImages();
+	ImageManager::UnloadImages();
 	SoundManager::UnloadSounds();
 	window.Close();
 	return 0;

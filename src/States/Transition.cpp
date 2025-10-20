@@ -21,7 +21,7 @@ void Transition::Draw() {
     DrawText("Results:", Width / 2 - (16 * 2.5), Height * 0.35f, 16, (Color){255, 255, 255, 255});
 
     for (int i = 0; i < 9; i++) {
-        DrawTexturePro(icons, (Rectangle){0, (float)i * 16, 36, 16},
+        DrawTexturePro(ImageManager::icons, (Rectangle){0, (float)i * 16, 36, 16},
                        (Rectangle){(float)(Width * 0.475f - 22.5), Height * 0.4f - 5 + (20 * i), 45, 20}, (Vector2){0, 0}, 0,
                        (Color){255, 255, 255, 255});
 

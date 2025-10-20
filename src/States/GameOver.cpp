@@ -10,10 +10,22 @@ void GameOver::Update() {
 }
 
 void GameOver::Draw() {
-    for (BeigeTank* e : this->enemies1) { e->draw(); }
-    for (GreenTank* e : this->enemies2) { e->draw(); }
-    for (RedTank* e : this->enemies3) { e->draw(); }
-    for (YellowTank* e : this->enemies4) { e->draw(); }
+    for (Tank* e : this->enemies) {
+        BeigeTank* b = dynamic_cast<BeigeTank*>(e);
+        GreenTank* g = dynamic_cast<GreenTank*>(e);
+        RedTank* r = dynamic_cast<RedTank*>(e);
+        YellowTank* y = dynamic_cast<YellowTank*>(e);
+
+        if (b) {
+            b->draw();
+        } else if (g) {
+            g->draw();
+        } else if (r) {
+            r->draw();
+        } else if (y) {
+            y->draw();
+        }
+    }
     
     for (Block* b : this->layout) b->draw();
 
@@ -26,7 +38,7 @@ void GameOver::Draw() {
     DrawText("Press Enter to Go Back to Menu", Width / 2 - (16 * 9), Height * 0.3f, 16, (Color){255, 255, 255, 255});
 
     for (int i = 0; i < 9; i++) {
-        DrawTexturePro(icons, (Rectangle){0, (float)i * 16, 36, 16},
+        DrawTexturePro(ImageManager::icons, (Rectangle){0, (float)i * 16, 36, 16},
                        (Rectangle){(float)(Width * 0.475f - 22.5), Height * 0.4f - 5 + (20 * i), 45, 20}, (Vector2){0, 0}, 0,
                        (Color){255, 255, 255, 255});
 

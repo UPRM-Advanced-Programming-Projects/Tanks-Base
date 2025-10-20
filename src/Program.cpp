@@ -125,6 +125,7 @@ void Program::Reset() {
     gameOverState = GameOver();
     winState = Win();
     transitionState = Transition();
+    ImageManager::animations.clear();
 }
 
 void Program::Unload() {

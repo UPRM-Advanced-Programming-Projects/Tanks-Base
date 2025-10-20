@@ -3,22 +3,8 @@
 #include "Player.hpp"
 #include "Sightline.hpp"
 
-class BeigeTank {
+class BeigeTank : public Tank{
     private:
-        double length;
-        double width;
-
-        int health;
-        int fireRate;
-        float speed;
-        bool moving = false;
-        
-        double aimAngle;
-        double angle;
-        std::pair<double, double> velocity;
-        std::pair<double, double> position;
-
-        CustomHitbox hitBox;
         CustomHitbox collisionBox;
         SightLine sightline;
 
@@ -79,14 +65,7 @@ class BeigeTank {
         void draw();
         void update();
 
-        int getHealth() { return this->health; }
-        float getSpeed() { return this->speed; }
-        bool isMoving() { return this->moving; }
-        CustomHitbox getHitbox() { return this->hitBox; }
-        std::pair<double, double> getPosition() { return this->position; }
-        std::pair<double, double> getVelocity() { return this->velocity; }
         bool getHasTarget() { return this->hasTarget; }
-
         void targetSystem(CustomHitbox target, std::vector<Block*> blocks);
         void shoot(std::vector<Projectile*> &projectiles, std::pair<double, double> target);
         void drawHitboxes();

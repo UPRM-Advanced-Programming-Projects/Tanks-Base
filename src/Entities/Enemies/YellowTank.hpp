@@ -3,22 +3,8 @@
 #include "Player.hpp"
 #include "Sightline.hpp"
 
-class YellowTank {
+class YellowTank : public Tank{
     private:
-        double length;
-        double width;
-
-        int health;
-        int fireRate;
-        float speed;
-        bool moving = false;
-        
-        double aimAngle;
-        double angle;
-        std::pair<double, double> velocity;
-        std::pair<double, double> position;
-
-        CustomHitbox hitBox;
         CustomHitbox collisionBox;
         SightLine sightline;
 
@@ -38,7 +24,7 @@ class YellowTank {
         
         int ID;
 
-        void blockCollision(std::vector<Block*> blocks);
+        bool blockCollision(std::vector<Block*> blocks);
 
     public:
         char colorID = '0';
@@ -78,27 +64,13 @@ class YellowTank {
         void draw();
         void update();
 
-        int getHealth() { return this->health; }
-        float getSpeed() { return this->speed; }
-        bool isMoving() { return this->moving; }
-        CustomHitbox getHitbox() { return this->hitBox; }
-        std::pair<double, double> getPosition() { return this->position; }
-        std::pair<double, double> getVelocity() { return this->velocity; }
         bool getHasTarget() { return this->hasTarget; }
         void setTurnTimer(int t) { this->makeTurnTimer = t; }
-        
         void targetSystem(CustomHitbox target, std::vector<Block*> blocks);
         void move(std::vector<Block*> &blocks);
         void shoot(std::vector<Projectile*> &projectiles, std::pair<double, double> target);
         void drawHitboxes();
         void projectileCollision(std::vector<Projectile*> &projectiles);
-
-        // void updateAll(Tank* player, std::vector<Projectile*> &projectiles, std::vector<Block*> blocks) override {
-        //     this->update();
-        //     this->targetSystem(player->getHitbox(), blocks);
-        //     this->move(blocks);
-        //     this->shoot(projectiles, player->getPosition());
-        // }
 
         ~YellowTank() {}
 };

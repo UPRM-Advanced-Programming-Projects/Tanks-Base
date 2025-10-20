@@ -4,7 +4,7 @@ void GreenTank::draw() {
     rlPushMatrix();
         rlTranslatef(X, Y, 0.0f);
         rlRotatef(this->angle, 0.0f, 0.0f, 1.0f);
-        DrawTexturePro(Tank::tankBodies, this->body, 
+        DrawTexturePro(ImageManager::tankBodies, this->body, 
                       (Rectangle){(float)(-this->width / 2), (float)(-this->length / 2), (float)this->width, (float)this->length}, 
                       (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
     rlPopMatrix();
@@ -12,7 +12,7 @@ void GreenTank::draw() {
     rlPushMatrix();
         rlTranslatef(X, Y, 0.0f);
         rlRotatef(this->aimAngle, 0.0f, 0.0f, 1.0f);
-        DrawTexturePro(Tank::tankHeads, this->head, 
+        DrawTexturePro(ImageManager::tankHeads, this->head, 
                       (Rectangle){-38.0f, -16.0f, 76.0f, 32.0f}, 
                       (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
     rlPopMatrix();
@@ -111,7 +111,11 @@ void GreenTank::move(std::vector<Block*> &blocks) {
     this->velocity.second = sin(angle * PI / 180);
     
     if (turnTimer <= 0 && !this->hasTarget) {
-        this->blockCollision(blocks);
+        if (!this->blockCollision(blocks)) {
+            this->moving = true;
+            this->position.first += this->velocity.first * speed;
+            this->position.second += this->velocity.second * speed;
+        }
 
     } else {
         this->moving = false;
@@ -123,16 +127,16 @@ void GreenTank::projectileCollision(std::vector<Projectile*> &projectiles) {
     for (Projectile* p : projectiles) {
         if (CustomHitbox::collision(this->hitBox, p->getHitbox()) && (p->ID != -1 && p->ID != this->ID)) {
             this->health--;
-            Tank::animations.push_back(Animation(X, Y, 32, 32, 32, 32, 9, Tank::tankExplosion));
-            Projectile::animations.push_back(Animation(p->getPosition().first, p->getPosition().second,
-                                                       57, 60, 30, 31, 6, Projectile::projectileExplosion));
+            ImageManager::animations.push_back(Animation(X, Y, 32, 32, 32, 32, 9, ImageManager::tankExplosion));
+            ImageManager::animations.push_back(Animation(p->getPosition().first, p->getPosition().second,
+                                                       57, 60, 30, 31, 6, ImageManager::projectileExplosion));
             p->del = true;
             PlaySound(SoundManager::enemyDeath);
         }
     }
 }
 
-void GreenTank::blockCollision(std::vector<Block*> blocks) {
+bool GreenTank::blockCollision(std::vector<Block*> blocks) {
     for (Block* b : blocks) {
         if (CustomHitbox::collision(this->collisionBox, b->getHitbox())) {
             std::pair<double, double> collision = CustomHitbox::collisionMargins(this->collisionBox, b->getHitbox());
@@ -146,13 +150,11 @@ void GreenTank::blockCollision(std::vector<Block*> blocks) {
             turnDir = Math::sign(dist(gen));
             turnTimer = (turnDir > 0) ? (90 - fmod(this->angle, 90)) : fmod(this->angle, 90);
             total = turnTimer;
-            return;
+            return true;
         }
     }
 
-    this->moving = true;
-    this->position.first += this->velocity.first * speed;
-    this->position.second += this->velocity.second * speed;
+    return false;
 }
 
 void GreenTank::drawHitboxes() {

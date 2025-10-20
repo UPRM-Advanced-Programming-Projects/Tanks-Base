@@ -8,7 +8,7 @@ void Player::draw() {
     rlPushMatrix();
         rlTranslatef(PlayerX, PlayerY, 0.0f);
         rlRotatef(this->angle, 0.0f, 0.0f, 1.0f);
-        DrawTexturePro(Tank::tankBodies, (Rectangle){2, 0, 64, 64}, 
+        DrawTexturePro(ImageManager::tankBodies, (Rectangle){2, 0, 64, 64}, 
                       (Rectangle){(float)(-this->width / 2), (float)(-this->length / 2), (float)this->width, (float)this->length}, 
                       (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
     rlPopMatrix();
@@ -17,7 +17,7 @@ void Player::draw() {
     rlPushMatrix();
         rlTranslatef(PlayerX, PlayerY, 0.0f);
         rlRotatef(this->aimAngle, 0.0f, 0.0f, 1.0f);
-        DrawTexturePro(Tank::tankHeads, (Rectangle){0, 0, 153, 64}, 
+        DrawTexturePro(ImageManager::tankHeads, (Rectangle){0, 0, 153, 64}, 
                       (Rectangle){-38.0f, -16.0f, 76.0f, 32.0f}, 
                       (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
     rlPopMatrix();
@@ -49,9 +49,9 @@ void Player::projectileCollision(std::vector<Projectile*> &projectiles) {
             this->health--;
             this->lives--;
             PlaySound(SoundManager::playerDeath);
-            Tank::animations.push_back(Animation(PlayerX, PlayerY, 32, 32, 32, 32, 9, Tank::tankExplosion));
-            Projectile::animations.push_back(Animation(p->getPosition().first, p->getPosition().second,
-                                                       57, 60, 30, 31, 6, Projectile::projectileExplosion));
+            ImageManager::animations.push_back(Animation(PlayerX, PlayerY, 32, 32, 32, 32, 9, ImageManager::tankExplosion));
+            ImageManager::animations.push_back(Animation(p->getPosition().first, p->getPosition().second,
+                                                       57, 60, 30, 31, 6, ImageManager::projectileExplosion));
             p->del = true;
         }
 
@@ -60,7 +60,7 @@ void Player::projectileCollision(std::vector<Projectile*> &projectiles) {
             this->health--;
             this->lives--;
             PlaySound(SoundManager::playerDeath);
-            Tank::animations.push_back(Animation(PlayerX, PlayerY, 32, 32, 32, 32, 9, Tank::tankExplosion));
+            ImageManager::animations.push_back(Animation(PlayerX, PlayerY, 32, 32, 32, 32, 9, ImageManager::tankExplosion));
             p->del = true;
         }
     }

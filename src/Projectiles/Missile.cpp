@@ -4,7 +4,7 @@ void Missile::draw() {
     rlPushMatrix();
         rlTranslatef(this->position.first, this->position.second, 0.0f);
         rlRotatef(this->angle, 0.0f, 0.0f, 1.0f);
-        DrawTexturePro(projectileSprites, (Rectangle){0, 0, 21, 20}, (Rectangle){-4, -4, 8, 8}, (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
+        DrawTexturePro(ImageManager::projectileSprites, (Rectangle){0, 0, 21, 20}, (Rectangle){-4, -4, 8, 8}, (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
     rlPopMatrix();
 
     //this->hitbox.draw();
@@ -31,8 +31,8 @@ void Missile::update(std::vector<Block*> blocks, CustomHitbox target) {
     if (this->ricochet < 0) { 
         this->del = true; 
         PlaySound(SoundManager::enemyDeath);
-        Projectile::animations.push_back(Animation(this->position.first, this->position.second,
-                                                   57, 60, 30, 31, 6, Projectile::projectileExplosion));
+        ImageManager::animations.push_back(Animation(this->position.first, this->position.second,
+                                                   57, 60, 30, 31, 6, ImageManager::projectileExplosion));
     }
 
 }

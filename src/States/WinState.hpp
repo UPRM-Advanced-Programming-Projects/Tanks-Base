@@ -12,8 +12,6 @@ class Win : public State {
         int titlePos = 0;
     
     public:
-        inline static Texture2D icons;
-
         Win() {
             this->name = "WIN";
         }
@@ -29,14 +27,6 @@ class Win : public State {
 		void KeyReleased() override;
 		void MousePressed(int x, int y, int button) override;
         void Reset() override;
-
-        static void LoadImages() {
-            icons = LoadTextureFromImage(LoadImage("images/TankIcons.png"));
-        }
-
-        static void UnloadImages() {
-            UnloadTexture(icons);
-        }
 
         ~Win() {}
 };

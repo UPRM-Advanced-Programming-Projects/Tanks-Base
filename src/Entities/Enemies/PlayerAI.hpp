@@ -92,13 +92,4 @@ class PlayerAI {
         void projectileCollision(std::vector<Projectile*> &projectiles);
         void trackTarget(CustomHitbox target, std::vector<Block*> blocks);
 
-
-        // void updateAll(Tank* enemy, std::vector<Projectile*> &projectiles, std::vector<Block*> blocks) override {
-        //     this->update();
-        //     this->targetSystem(enemy->getHitbox(), blocks);
-        //     this->shoot(projectiles, enemy);
-        //     this->trackTarget(enemy->getHitbox(), blocks);
-        //     this->move(blocks);
-        // }
-
 };

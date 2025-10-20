@@ -5,8 +5,8 @@
 #include <vector>
 #include <utility>
 #include <cmath>
-#include "Animation.hpp"
 #include "SoundManager.hpp"
+#include "ImageManager.hpp"
 
 class Projectile {
     protected:
@@ -17,9 +17,6 @@ class Projectile {
     public:
         int ID;
         bool del;
-        inline static Texture2D projectileSprites;
-        inline static Texture2D projectileExplosion;
-        inline static std::vector<Animation> animations;
         
         Projectile(double x, double y, int ricochet) {
             this->position.first = x;
@@ -53,23 +50,13 @@ class Projectile {
                         PlaySound(SoundManager::enemyDeath);
                         projectiles[i]->del = true;
                         projectiles[j]->del = true;
-                        Projectile::animations.push_back(Animation(projectiles[i]->position.first, projectiles[i]->position.second,
-                                                                   57, 60, 30, 31, 6, Projectile::projectileExplosion));
-                        Projectile::animations.push_back(Animation(projectiles[j]->position.first, projectiles[j]->position.second,
-                                                                   57, 60, 30, 31, 6, Projectile::projectileExplosion));
+                        ImageManager::animations.push_back(Animation(projectiles[i]->position.first, projectiles[i]->position.second,
+                                                                   57, 60, 30, 31, 6, ImageManager::projectileExplosion));
+                        ImageManager::animations.push_back(Animation(projectiles[j]->position.first, projectiles[j]->position.second,
+                                                                   57, 60, 30, 31, 6, ImageManager::projectileExplosion));
                     }
                 }
             }
-        }
-
-        static void LoadImages() {
-            projectileSprites = LoadTextureFromImage(LoadImage("images/Projectiles.png"));
-            projectileExplosion = LoadTextureFromImage(LoadImage("images/ProjectileExplosion.png"));
-        }
-
-        static void UnloadImages() {
-            UnloadTexture(projectileSprites);
-            UnloadTexture(projectileExplosion);
         }
 
         virtual ~Projectile() {}

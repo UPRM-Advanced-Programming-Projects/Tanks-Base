@@ -6,8 +6,6 @@ bool isPaused = false;
 int doFrames = 0;
 
 void Game::Update() {
-    for (Animation& a : Tank::animations) a.update();
-    for (Animation& a : Projectile::animations) a.update();
     manageAnimations();
 
     if (startUp && !IsSoundPlaying(SoundManager::startUp)) PlaySound(SoundManager::startUp);
@@ -34,23 +32,22 @@ void Game::Update() {
         startUp = true;
     }
 
-    if (world.getEnemyCount() <= 0 && Tank::animations.size() <= 0 && this->currentMap < 30) {
+    if (world.getEnemyCount() <= 0 && ImageManager::animations.size() <= 0 && this->currentMap < 30) {
         this->nextLevel = true;
         this->startUp = true;
         this->delay = 90;
     }
-    if (world.getEnemyCount() <= 0 && Tank::animations.size() <= 0 && this->currentMap == 30) this->win = true;
+    if (world.getEnemyCount() <= 0 && ImageManager::animations.size() <= 0 && this->currentMap == 30) this->win = true;
 }
 
 void Game::Draw() {
-    for (Animation a : Tank::animations) a.draw();
-    for (Animation a : Projectile::animations) a.draw();
+    for (Animation a : ImageManager::animations) a.draw();
     for (Projectile* &p : projectiles) { p->draw(); }
     player->draw();
     world.draw();
 
     for (int i = 0; i < player->lives; i++) {
-        DrawTexturePro(Transition::icons, (Rectangle){0, 144, 36, 16},
+        DrawTexturePro(ImageManager::icons, (Rectangle){0, 144, 36, 16},
                        (Rectangle){(66.0f * i), 0, 66, 29.3333}, (Vector2){0, 0}, 0,
                        (Color){255, 255, 255, 255});
     }
@@ -92,11 +89,9 @@ void Game::Reset() {
 }
 
 void Game::manageAnimations() {
-    Tank::animations.erase(remove_if(Tank::animations.begin(), Tank::animations.end(), [](Animation& a) {
+    for (Animation& a : ImageManager::animations) a.update();
+    
+    ImageManager::animations.erase(remove_if(ImageManager::animations.begin(), ImageManager::animations.end(), [](Animation& a) {
         return a.done;
-    }), Tank::animations.end());
-
-    Projectile::animations.erase(remove_if(Projectile::animations.begin(), Projectile::animations.end(), [](Animation& a) {
-        return a.done;
-    }), Projectile::animations.end());
+    }), ImageManager::animations.end());
 }

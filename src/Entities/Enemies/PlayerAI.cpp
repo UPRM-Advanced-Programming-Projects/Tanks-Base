@@ -4,7 +4,7 @@ void PlayerAI::draw() {
     rlPushMatrix();
         rlTranslatef(X, Y, 0.0f);
         rlRotatef(this->angle, 0.0f, 0.0f, 1.0f);
-        DrawTexturePro(Tank::tankBodies, this->body, 
+        DrawTexturePro(ImageManager::tankBodies, this->body, 
                       (Rectangle){(float)(-this->width / 2), (float)(-this->length / 2), (float)this->width, (float)this->length}, 
                       (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
     rlPopMatrix();
@@ -12,7 +12,7 @@ void PlayerAI::draw() {
     rlPushMatrix();
         rlTranslatef(X, Y, 0.0f);
         rlRotatef(this->aimAngle, 0.0f, 0.0f, 1.0f);
-        DrawTexturePro(Tank::tankHeads, this->head, 
+        DrawTexturePro(ImageManager::tankHeads, this->head, 
                       (Rectangle){-38.0f, -16.0f, 76.0f, 32.0f}, 
                       (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
     rlPopMatrix();
@@ -147,9 +147,9 @@ void PlayerAI::projectileCollision(std::vector<Projectile*> &projectiles) {
     for (Projectile* p : projectiles) {
         if (CustomHitbox::collision(this->hitBox, p->getHitbox()) && (p->ID != -1 && p->ID != this->ID)) {
             this->health--;
-            Tank::animations.push_back(Animation(X, Y, 32, 32, 32, 32, 9, Tank::tankExplosion));
-            Projectile::animations.push_back(Animation(p->getPosition().first, p->getPosition().second,
-                                                       57, 60, 30, 31, 6, Projectile::projectileExplosion));
+            ImageManager::animations.push_back(Animation(X, Y, 32, 32, 32, 32, 9, ImageManager::tankExplosion));
+            ImageManager::animations.push_back(Animation(p->getPosition().first, p->getPosition().second,
+                                                       57, 60, 30, 31, 6, ImageManager::projectileExplosion));
             p->del = true;
             PlaySound(SoundManager::enemyDeath);
         }
