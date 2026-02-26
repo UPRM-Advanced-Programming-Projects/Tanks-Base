@@ -61,8 +61,8 @@ class PlayerAI {
             this->position.first = x;
             this->position.second = y;
 
-            this->hitBox = CustomHitbox(0, 0, width, length);
-            this->collisionBox = CustomHitbox(0, 0, width + 20, length + 20);
+            this->hitBox = CustomHitbox(x, y, width, length);
+            this->collisionBox = CustomHitbox(x, y, width + 20, length + 20);
 
             this->hasTarget = false;
             this->turnTimer = 0;

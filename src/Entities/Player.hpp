@@ -45,7 +45,7 @@ class Player : public Tank {
             this->position.first = x;
             this->position.second = y;
 
-            this->hitBox = CustomHitbox(0, 0, width, length);       
+            this->hitBox = CustomHitbox(x, y, width, length);       
         }
 
         void setDirection(double angle) {

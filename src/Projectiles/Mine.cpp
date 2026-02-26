@@ -16,10 +16,5 @@ void Mine::update(std::vector<Block*> blocks, CustomHitbox target) {
         this->color += this->mult * 100;
         this->mult *= -1;
     }
-
-    if (CustomHitbox::collision(target, this->collisionBox)) {
-        ImageManager::animations.push_back(Animation(this->position.first, this->position.second,
-                                                   57, 60, 110, 110, 6, ImageManager::projectileExplosion));
-    }
 }
 

@@ -61,6 +61,8 @@ void Player::projectileCollision(std::vector<Projectile*> &projectiles) {
             this->lives--;
             PlaySound(SoundManager::playerDeath);
             ImageManager::animations.push_back(Animation(PlayerX, PlayerY, 32, 32, 32, 32, 9, ImageManager::tankExplosion));
+            ImageManager::animations.push_back(Animation(m->getPosition().first, m->getPosition().second,
+                                                   57, 60, 110, 110, 6, ImageManager::projectileExplosion));
             p->del = true;
         }
     }
