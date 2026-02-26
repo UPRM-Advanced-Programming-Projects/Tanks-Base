@@ -32,12 +32,12 @@ void Game::Update() {
         startUp = true;
     }
 
-    if (world.getEnemyCount() <= 0 && ImageManager::animations.size() <= 0 && this->currentMap < 30) {
+    if (world.getEnemyCount() <= 0 && ImageManager::animations.size() <= 0 && this->currentMap < 7) {
         this->nextLevel = true;
         this->startUp = true;
         this->delay = 90;
     }
-    if (world.getEnemyCount() <= 0 && ImageManager::animations.size() <= 0 && this->currentMap == 30) this->win = true;
+    if (world.getEnemyCount() <= 0 && ImageManager::animations.size() <= 0 && this->currentMap == 7) this->win = true;
 }
 
 void Game::Draw() {
