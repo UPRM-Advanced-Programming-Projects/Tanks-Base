@@ -4,6 +4,7 @@
 #include "BeigeTank.hpp"
 #include "YellowTank.hpp"
 #include "RedTank.hpp"
+#include <algorithm>
 
 #define Width GetScreenWidth()
 #define Height GetScreenHeight()
