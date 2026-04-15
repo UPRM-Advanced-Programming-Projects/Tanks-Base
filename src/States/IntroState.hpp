@@ -2,6 +2,7 @@
 #include "Map.hpp"
 #include "PlayerAI.hpp"
 #include "State.hpp"
+#include <algorithm>
 
 class Intro : public State {
     protected:

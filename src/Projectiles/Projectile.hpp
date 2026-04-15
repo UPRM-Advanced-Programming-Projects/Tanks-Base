@@ -7,6 +7,7 @@
 #include <cmath>
 #include "SoundManager.hpp"
 #include "ImageManager.hpp"
+#include <algorithm>
 
 class Projectile {
     protected:

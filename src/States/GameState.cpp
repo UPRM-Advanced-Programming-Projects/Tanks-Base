@@ -1,6 +1,7 @@
 #pragma once
 #include "GameState.hpp"
 #include "Transition.hpp"
+#include <algorithm>
 
 bool isPaused = false;
 int doFrames = 0;
